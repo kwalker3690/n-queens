@@ -19,7 +19,9 @@
           var $square = $('<td class="square"/>').on('click', function(e) {
             model.togglePiece(rowIndex, colIndex);
           }).addClass(['positive', 'negative'][(rowIndex + colIndex) % 2]);
+
           model.get(rowIndex)[colIndex] && $square.html('&#9813;');
+
           model.hasAnyQueenConflictsOn(rowIndex, colIndex) && $square.addClass('inConflict');
           return $square;
         }));

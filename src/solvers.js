@@ -19,31 +19,26 @@ var buildTestBoard = function(n){
       matrix[i][j] = 0;
     }
   }
-  var solutionBoard = new Board(matrix);
-  return solutionBoard;
+  var nBoardObject = new Board(matrix);
+  return nBoardObject;
 }
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
-
-window.findNRooksSolution = function(n) { // take in a number
-  var solution = []; // return a matrix (2D array) that is n by n
-
-  var solutionBoard = buildTestBoard(n);
-
-  var matrix = solutionBoard.rows(); // access by matrix[0][0] to matrix[n][n]
-  //console.log(matrix);
-  // matrix[0][0] = 1;
+window.findNRooksSolution = function(n, ifAllSolutionsReturn) { // take in a number BETWEEN 1 - infinity
+  var solution = []; // storage for matrices of valid 'nXn' soutions
+  var nBoardObject = buildTestBoard(n);
+  var matrix = nBoardObject.rows(); // access by matrix[0][0] to matrix[n][n]
 
   var recursiveSolution = function(row) {
-  var currentRow = row;
+    var currentRow = row;
     for(var currentCol = 0; currentCol < n; currentCol++){
       matrix[currentRow][currentCol] = 1; // Place a piece on [row][col]
-      var hasConflict = solutionBoard.hasColConflictAt(currentCol); // check for conflict at this column
+
+      var hasConflict = nBoardObject.hasColConflictAt(currentCol); // check for conflict at this column
 
       if (!hasConflict) {
-        if(row === n-1){ // if this breaks, make sure we need n-1
-          solution.push(matrix);
-          // return;
+        if(row === n-1){
+          solution.push(_.map(matrix, _.clone));
         } // end if (last row)
           else {
           recursiveSolution(currentRow+1); // set currentBoardPosition = 0
@@ -53,35 +48,40 @@ window.findNRooksSolution = function(n) { // take in a number
     } // end for (iterate through rows)
   } // end recursiveSolution()
 
-  recursiveSolution(0);
+  recursiveSolution(0); // call the recursive function, which will populate 'solution' with all solution permutations
 
-  //console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  if (ifAllSolutionsReturn) { // if we've called this from countNRooksSolutions
+    return solution.length; // the number of solution boards
+  }
   return solution[0];
 };
 
 
 // return the number of 4 x 4 chessboards that exist, with 4 rooks placed so that none can attack
-// return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solution = []; // return a matrix (2D array) that is n by n
+  return findNRooksSolution(n, true);
+};
 
-  var solutionBoard = buildTestBoard(n);
 
-  var matrix = solutionBoard.rows(); // access by matrix[0][0] to matrix[n][n]
-  console.log(matrix)
-  // matrix[0][0] = 1;
+// return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
+window.findNQueensSolution = function(n, ifAllSolutionsReturn) {
+  var solution = []; // storage for matrices of valid 'nXn' soutions
+  var nBoardObject = buildTestBoard(n);
+  var matrix = nBoardObject.rows(); // access by matrix[0][0] to matrix[n][n]
 
   var recursiveSolution = function(row) {
-  // 1) Place a piece on [current row] [Column 0]   <== set currentBoardPosition = 1
-    var currentRow = row;
+  var currentRow = row;
     for(var currentCol = 0; currentCol < n; currentCol++){
-      matrix[currentRow][currentCol] = 1;
-      var hasConflict = solutionBoard.hasColConflictAt(currentCol); // check for conflict at this column
+      matrix[currentRow][currentCol] = 1; // Place a piece on [row][col]
+      var hasConflict = (nBoardObject.hasColConflictAt(currentCol)
+                      ||nBoardObject.hasMajorDiagonalConflictAt(currentCol)
+                      ||nBoardObject.hasMinorDiagonalConflictAt(currentCol)); // check for conflict at this column and diagonals
 
       if (!hasConflict) {
-        if(row === n-1){ // if this breaks, make sure we need n-1
-          solution.push(matrix);
-          // return;
+        if(row === n-1){
+          console.log(matrix)
+          debugger;
+          solution.push(_.map(matrix, _.clone));
         } // end if (last row)
           else {
           recursiveSolution(currentRow+1); // set currentBoardPosition = 0
@@ -89,28 +89,19 @@ window.countNRooksSolutions = function(n) {
       } // end if (hasConflict)
       matrix[currentRow][currentCol] = 0;
     } // end for (iterate through rows)
+  } // end recursiveSolution()
+
+  recursiveSolution(0); // call the recursive function, which will populate 'solution' with all solution permutations
+
+  if (ifAllSolutionsReturn) { // if we've called this from countNRooksSolutions
+    return solution.length; // the number of solution boards
   }
-  recursiveSolution(0);
-
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  return solution.length;
-};
-
-
-
-// return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
-window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
-
-  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+  return solution[0];
 };
 
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
-
-  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-  return solutionCount;
+  if (n === 0) return 1;
+  return findNQueensSolution(n, true);
 };

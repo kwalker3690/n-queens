@@ -97,7 +97,7 @@
         } // end if
       } // end for(currentRows)
 
-      return false; // fixme
+      return false;
     },
 
 
@@ -116,7 +116,7 @@
       if(result > 1){
         return true;
       }
-      return false; // fixme
+      return false;
     },
 
     // test if any columns on this board contain conflicts
@@ -127,8 +127,22 @@
           return true;
         }
       }
-      return false; // fixme
+      return false;
     },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -137,34 +151,72 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      var currentRows = this.rows();
+      var currentRows = this.rows(); // the matrix of the current board
       var result = 0;
-      for(var i = 0; i < currentRows.length; i++){ // iterate over each row
-        result = 0;
-        var currentCol = majorDiagonalColumnIndexAtFirstRow;
-        for (var j = i; j < currentRows.length && currentCol < currentRows.length; j++, currentCol++) { // iterates to next diagonal position
-          result += currentRows[j][currentCol];
-        } // this adds the value at current square
+
+      var currentCol = majorDiagonalColumnIndexAtFirstRow;
+        if (majorDiagonalColumnIndexAtFirstRow === 0) { // we will enter this loop if we are checking the FIRST COLUMN ONLY
+          for (var i = 0; i < currentRows.length; i++) { // this is the row we'll be checking down
+            currentCol = 0; // reset currentCol to the initial position (first column)
+            result = 0; // reset result for each row check
+
+            for(var j = i; j < currentRows.length; j++){ // this for loop steps to the next diagonal for a check
+              result += currentRows[j][currentCol];
+              currentCol++;
+
+              if (result > 1) {
+                return true;
+              } // end if (result > 1)
+            } // end for (check this particular diagonal)
+        } // end for
+        return false; // result has not been === true.
+      } // end if (on last column)
+
+      for(var i = 0; i < currentRows.length; i++){ // this for loop steps to the next diagonal for a check
+        result += currentRows[i][currentCol];
+        currentCol++; // increment up each column
+
         if (result > 1) {
           return true;
-        }
-
+        } // end if (result > 1)
       } // end for
-      return false; // fixme
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var currentRows = this.rows();
-      var result = false;
-      for(var i = 0; i < currentRows.length; i++){
+      for(var i = 0; i < currentRows.length; i++){ // THIS will iterate down the rows to be sure every position on the board is caught
         if(this.hasMajorDiagonalConflictAt(i)){
           return true;
         }
       }
-      return false; // fixme
+      return false;
     },
 
+// AnyMajor will pass each column into MajorAt ==> 0, 1, 2, 3, etc.
+  // MajorAt will accumulate the values starting at [0][columnIn], going down [+1][+1], [+2][+2], [+3][+3], etc.
+  // It will *not* check down the rows: [1][0]..., [2][0]..., etc.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// AnyMajor will pass each column into MajorAt ==> 0, 1, 2, 3, etc.
+  // MajorAt will accumulate the values starting at [0][columnIn], going down [+1][+1], [+2][+2], [+3][+3], etc.
+  // It will *not* check down the rows: [1][0]..., [2][0]..., etc.
 
 
     // Minor Diagonals - go from top-right to bottom-left
@@ -174,34 +226,51 @@
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
       var currentRows = this.rows();
       var result = 0;
-      for(var i = 0; i < currentRows.length; i++){ // iterate over each row
-        result = 0;
-        var currentCol = minorDiagonalColumnIndexAtFirstRow;
-        for (var j = i; j < currentRows.length && currentCol > -1; j++, currentCol--) { // iterates to next diagonal position
-          result += currentRows[j][currentCol];
-        } // this adds the value at current square
+      // debugger;
+      var currentCol = minorDiagonalColumnIndexAtFirstRow;
+        if (minorDiagonalColumnIndexAtFirstRow === currentRows.length-1) { // we will enter this loop if we are checking the LAST COLUMN ONLY
+          for (var i = 0; i < currentRows.length; i++) { // this is the row we'll be checking down
+            currentCol = minorDiagonalColumnIndexAtFirstRow; // reset currentCol to the initial position (last column)
+            result = 0; // reset result for each row check
+
+            for(var j = i; j < currentRows.length; j++){ // this for loop steps to the next diagonal for a check
+              result += currentRows[j][currentCol];
+              currentCol--;
+
+              if (result > 1) {
+                return true;
+              } // end if (result > 1)
+            } // end for (check this particular diagonal)
+        } // end for
+        return false; // result has not been === true.
+      } // end if (on last column)
+
+
+
+
+      for(var i = 0; i < currentRows.length; i++){ // this for loop steps to the next diagonal for a check
+        result += currentRows[i][currentCol];
+        currentCol--;
+
         if (result > 1) {
           return true;
-        }
-
+        } // end if (result > 1)
       } // end for
-      return false; // fixme
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
       var currentRows = this.rows();
-      var result = false;
       for(var i = 0; i < currentRows.length; i++){
-        if(this.hasMinorDiagonalConflictAt(i)){
+        if(this.hasMinorDiagonalConflictAt(i)){ // check for minor diagonal conflict at each COLUMN 0 - n
           return true;
         }
-      }
-      return false; // fixme
+      } // end for (iterate down through rows)
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
-
 
   });
 
