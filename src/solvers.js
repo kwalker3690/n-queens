@@ -64,7 +64,7 @@ window.countNRooksSolutions = function(n) {
 
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
-window.findNQueensSolution = function(n, ifAllSolutionsReturn) {
+window.findNQueensSolution = function(n, typeOfReturn) {
   var solution = []; // storage for matrices of valid 'nXn' soutions
   var nBoardObject = buildTestBoard(n);
   var matrix = nBoardObject.rows(); // access by matrix[0][0] to matrix[n][n]
@@ -73,29 +73,57 @@ window.findNQueensSolution = function(n, ifAllSolutionsReturn) {
   var currentRow = row;
     for(var currentCol = 0; currentCol < n; currentCol++){
       matrix[currentRow][currentCol] = 1; // Place a piece on [row][col]
-      var hasConflict = (nBoardObject.hasColConflictAt(currentCol)
-                      ||nBoardObject.hasMajorDiagonalConflictAt(currentCol)
-                      ||nBoardObject.hasMinorDiagonalConflictAt(currentCol)); // check for conflict at this column and diagonals
 
-      if (!hasConflict) {
+/* *****************************************************************************************
+*
+* ______            _        ______         _                 _
+* | ___ \          (_)       | ___ \       | |               | |
+* | |_/ / ___  __ _ _ _ __   | |_/ /___  __| |_   _ _ __   __| | __ _ _ __   ___ _   _
+* | ___ \/ _ \/ _` | | '_ \  |    // _ \/ _` | | | | '_ \ / _` |/ _` | '_ \ / __| | | |
+* | |_/ /  __/ (_| | | | | | | |\ \  __/ (_| | |_| | | | | (_| | (_| | | | | (__| |_| |
+* \____/ \___|\__, |_|_| |_| \_| \_\___|\__,_|\__,_|_| |_|\__,_|\__,_|_| |_|\___|\__, |
+*              __/ |                                                              __/ |
+*             |___/                                                              |___/
+*
+*  ****************************************************************************************
+*/
+      // var majDiagToCheck = (currentCol - currentRow);
+      //   if (majDiagToCheck < 0) majDiagToCheck = 0; // if less than 0, set to 0
+      // var minDiagToCheck = (currentCol + currentRow)
+      //   if (majDiagToCheck >= n) majDiagToCheck = n-1; // if n or more, set to n-1
+
+// debugger;
+
+      var hasConflicts = nBoardObject.hasAnyQueensConflicts();
+
+      // var hasColConflict = nBoardObject.hasColConflictAt(currentCol); // we'll only ever have 1 item / row - don't need to check row conflicts
+      // var hasMajConflict = nBoardObject.hasMajorDiagonalConflictAt(majDiagToCheck); // check for Major diag conflicts
+      // var hasMinConflict = nBoardObject.hasMinorDiagonalConflictAt(minDiagToCheck); // check for Major diag conflicts
+
+      // if (!hasColConflict && !hasMajConflict && !hasMinConflict) {
+      if (!hasConflicts) {
         if(row === n-1){
-          console.log(matrix)
-          debugger;
           solution.push(_.map(matrix, _.clone));
         } // end if (last row)
           else {
           recursiveSolution(currentRow+1); // set currentBoardPosition = 0
         } // end else (not last row)
       } // end if (hasConflict)
-      matrix[currentRow][currentCol] = 0;
+      matrix[currentRow][currentCol] = 0; // Non-solution: reset this square back to 0
     } // end for (iterate through rows)
   } // end recursiveSolution()
 
   recursiveSolution(0); // call the recursive function, which will populate 'solution' with all solution permutations
 
-  if (ifAllSolutionsReturn) { // if we've called this from countNRooksSolutions
+  if (typeOfReturn === 'count') { // if we've called this from countNRooksSolutions
     return solution.length; // the number of solution boards
   }
+  if (typeOfReturn === 'all') { // if we've called this from countNRooksSolutions
+    return solution; // the number of solution boards
+  }
+  if (solution.length === 0) { // if no solutions
+    return {'n' : n}; // return an empty object of size n
+  } // end if no solutions
   return solution[0];
 };
 
@@ -103,5 +131,12 @@ window.findNQueensSolution = function(n, ifAllSolutionsReturn) {
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
   if (n === 0) return 1;
-  return findNQueensSolution(n, true);
+  return findNQueensSolution(n, 'count');
 };
+
+window.allNQueensSolutions = function(n) {
+  if (n === 0) return 1;
+  return findNQueensSolution(n, 'all');
+};
+
+

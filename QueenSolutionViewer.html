@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>n-rooks solver</title>
+    <style type="text/css">
+      .square {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+      }
+
+      .positive {
+        background-color: lightgrey;
+      }
+
+      .negative {
+        background-color: grey;
+      }
+
+      .inConflict{
+        background-color: red;
+      }
+
+      .centerDiv{
+        text-align: center;
+      }
+      table{
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="lib/jquery-1.8.3.js"></script>
+    <script src="lib/underscore.js"></script>
+    <script src="lib/backbone.js"></script>
+    <script src="src/Board.js"></script>
+    <script src="src/BoardView.js"></script>
+    <script src="src/solvers.js"></script>
+
+      <div class="centerDiv" >
+      <h1>Our Queens</h1>
+      <div class="our-queens"></div>
+      <input class="board-size">
+      <button class="button-next">Next Solution</button>
+      </div>
+
+
+    <script>
+      window.displayBoardQ = function(matrix){
+        $('.our-queens').html(
+          new BoardView({
+            model: new Board(matrix)
+          }).render()
+        );
+      };
+
+      var indexToDisplay = 0;
+      var queenMatrix = allNQueensSolutions(8);
+      displayBoardQ(queenMatrix[indexToDisplay]);
+
+
+      $('.button-next').on('click', function(e){
+        indexToDisplay++; // increment index
+        if (indexToDisplay === queenMatrix.length-1) { // if we've hit the end of the array
+          indexToDisplay = 0;
+        }
+        displayBoardQ(queenMatrix[indexToDisplay]);
+      });
+    </script>
+  </body>
+</html>

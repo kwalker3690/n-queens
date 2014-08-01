@@ -43,70 +43,70 @@
     <div class="our-queens"></div>
 
     <script>
-      // /////////////////////////////////////////
-      // //               Def rooks             //
-      // /////////////////////////////////////////
-      // window.displayBoardRD = function(matrix){
-      //   $('.d-rooks').append(
-      //     new BoardView({
-      //       model: new Board(matrix)
-      //     }).render()
-      //   );
-      // };
+      /////////////////////////////////////////
+      //               Def rooks             //
+      /////////////////////////////////////////
+      window.displayBoardRD = function(matrix){
+        $('.d-rooks').append(
+          new BoardView({
+            model: new Board(matrix)
+          }).render()
+        );
+      };
 
-      // $(function(){
-      //   // this is a pre-baked solution for n-queens in the n = 4 case, rendered to the screen using our handy visualizer.
-      //   displayBoardRD([
-      //     [1, 0, 0, 0],
-      //     [0, 1, 0, 0],
-      //     [0, 0, 1, 0],
-      //     [0, 0, 0, 1]
-      //   ]);
-      // }); // end of default Rooks
+      $(function(){
+        // this is a pre-baked solution for n-queens in the n = 4 case, rendered to the screen using our handy visualizer.
+        displayBoardRD([
+          [1, 0, 0, 0],
+          [0, 1, 0, 0],
+          [0, 0, 1, 0],
+          [0, 0, 0, 1]
+        ]);
+      }); // end of default Rooks
 
-      // /////////////////////////////////////////
-      // //               Our rooks             //
-      // /////////////////////////////////////////
-      // window.displayBoardR = function(matrix){
-      //   $('.our-rooks').append(
-      //     new BoardView({
-      //       model: new Board(matrix)
-      //     }).render()
-      //   );
-      // };
+      /////////////////////////////////////////
+      //               Our rooks             //
+      /////////////////////////////////////////
+      window.displayBoardR = function(matrix){
+        $('.our-rooks').append(
+          new BoardView({
+            model: new Board(matrix)
+          }).render()
+        );
+      };
 
-      // var fourRooksMatrix = findNRooksSolution(4);
+      var fourRooksMatrix = findNRooksSolution(4);
 
-      // $(function(){
-      //   // This should be the return matrix from our array of matrices of Rook solutions
-      //   displayBoardR(fourRooksMatrix);
+      $(function(){
+        // This should be the return matrix from our array of matrices of Rook solutions
+        displayBoardR(fourRooksMatrix);
 
-      // });
+      });
 
-      // /////////////////////////////////////////
-      // //               Def Queens            //
-      // /////////////////////////////////////////
-      //   window.displayBoardDQ = function(matrix){
-      //   $('.d-queens').append(
-      //     new BoardView({
-      //       model: new Board(matrix)
-      //     }).render()
-      //   );
-      // };
+      /////////////////////////////////////////
+      //               Def Queens            //
+      /////////////////////////////////////////
+        window.displayBoardDQ = function(matrix){
+        $('.d-queens').append(
+          new BoardView({
+            model: new Board(matrix)
+          }).render()
+        );
+      };
 
-      // $(function(){
-      //   // this is a pre-baked solution for n-queens in the n = 4 case, rendered to the screen using our handy visualizer.
-      //   displayBoardDQ([
-      //     [0, 1, 0, 0],
-      //     [0, 0, 0, 1],
-      //     [1, 0, 0, 0],
-      //     [0, 0, 1, 0]
-      //   ]);
-      // });
+      $(function(){
+        // this is a pre-baked solution for n-queens in the n = 4 case, rendered to the screen using our handy visualizer.
+        displayBoardDQ([
+          [0, 1, 0, 0],
+          [0, 0, 0, 1],
+          [1, 0, 0, 0],
+          [0, 0, 1, 0]
+        ]);
+      });
 
-      // /////////////////////////////////////////
-      // //               Our Queens            //
-      // /////////////////////////////////////////
+      /////////////////////////////////////////
+      //               Our Queens            //
+      /////////////////////////////////////////
       window.displayBoardQ = function(matrix){
         $('.our-queens').append(
           new BoardView({

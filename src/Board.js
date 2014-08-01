@@ -8,6 +8,7 @@
 
     initialize: function (params) {
       if (_.isUndefined(params) || _.isNull(params)) {
+        // debugger;
         console.log('Good guess! But to use the Board() constructor, you must pass it an argument in one of the following formats:');
         console.log('\t1. An object. To create an empty board of size n:\n\t\t{n: %c<num>%c} - Where %c<num> %cis the dimension of the (empty) board you wish to instantiate\n\t\t%cEXAMPLE: var board = new Board({n:5})', 'color: blue;', 'color: black;','color: blue;', 'color: black;', 'color: grey;');
         console.log('\t2. An array of arrays (a matrix). To create a populated board of size n:\n\t\t[ [%c<val>%c,%c<val>%c,%c<val>%c...], [%c<val>%c,%c<val>%c,%c<val>%c...], [%c<val>%c,%c<val>%c,%c<val>%c...] ] - Where each %c<val>%c is whatever value you want at that location on the board\n\t\t%cEXAMPLE: var board = new Board([[1,0,0],[0,1,0],[0,0,1]])', 'color: blue;', 'color: black;','color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: grey;');
@@ -131,21 +132,6 @@
     },
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
@@ -194,30 +180,6 @@
       return false;
     },
 
-// AnyMajor will pass each column into MajorAt ==> 0, 1, 2, 3, etc.
-  // MajorAt will accumulate the values starting at [0][columnIn], going down [+1][+1], [+2][+2], [+3][+3], etc.
-  // It will *not* check down the rows: [1][0]..., [2][0]..., etc.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// AnyMajor will pass each column into MajorAt ==> 0, 1, 2, 3, etc.
-  // MajorAt will accumulate the values starting at [0][columnIn], going down [+1][+1], [+2][+2], [+3][+3], etc.
-  // It will *not* check down the rows: [1][0]..., [2][0]..., etc.
-
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
@@ -244,8 +206,6 @@
         } // end for
         return false; // result has not been === true.
       } // end if (on last column)
-
-
 
 
       for(var i = 0; i < currentRows.length; i++){ // this for loop steps to the next diagonal for a check
